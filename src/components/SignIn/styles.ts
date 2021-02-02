@@ -22,7 +22,7 @@ export const Content = styled.div`
       margin-bottom: 24px;
       color: #000000;
     }
-    button {
+    .formButton {
       background: #ff9000;
       border-radius: 10px;
       border: none;

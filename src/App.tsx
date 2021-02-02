@@ -1,11 +1,11 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import SignIn from './components/SignIn';
 
-import SigninPage from './pages/signin';
+import store from './store';
 
-const App: React.FC = () => {
-  return (
-    <SigninPage/>
-  )
-}
+const App = () => <Provider store={store}>
+    <SignIn />
+    </Provider>;
 
 export default App;
