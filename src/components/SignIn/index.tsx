@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { FiMail, FiLock } from 'react-icons/fi';
-import { Button } from '@material-ui/core';
+import { Button, Card, CardContent } from '@material-ui/core';
 import Input from '../Input'
 import { Container, Content } from './styles';
 
@@ -37,9 +37,10 @@ class SignIn extends Component<Props> {
   }
 
   componentDidUpdate(prevProps:any, prevState:any) {
-    console.log(this.props)
     if (prevProps.login !== this.props.login) {
-      this.props.history.push("/home", this.props.login[0]);
+      if(store.getState().login.isAuthUser){
+        this.props.history.push("/home", this.props.login[0]);
+      }
     }
   }
   
@@ -78,36 +79,38 @@ class SignIn extends Component<Props> {
     
     return (
       <Container className="container">
-        <Content className="content">
-          <form>
-            {this.props.login.length}
-            <h1>Faça seu login</h1>
-            <Input
-              className="email-input"
-              icon={FiMail}
-              name="email"
-              value={email}
-              onChange={(e) => this.setEmail(e)}
-              placeholder="E-mail"
-              autoComplete="false"
-            />
-            <Input
-              icon={FiLock}
-              name="password"
-              value={password}
-              onChange={e => this.setPassword(e)}
-              type="password"
-              placeholder="Senha"
-            />
-            <Button onClick={(e) => this.submit(e, loginObj)} 
-              disabled={email === '' || password === ''}
-              color="primary"
-            >Entrar</Button>
-            <ToastContainer position='bottom-center'/>
-            <Button  onClick={(e) => this.createAccount(e)} color="primary" >Criar Conta</Button>
-            <a href="forgot">Esqueci minha senha</a>
-          </form>
-        </Content>
+        <Card style={{width: "35%"}} variant="outlined">
+          <Content className="content">
+            <form>
+              {this.props.login.length}
+              <h1>Faça seu login</h1>
+              <Input
+                className="email-input"
+                icon={FiMail}
+                name="email"
+                value={email}
+                onChange={(e) => this.setEmail(e)}
+                placeholder="E-mail"
+                autoComplete="false"
+              />
+              <Input
+                icon={FiLock}
+                name="password"
+                value={password}
+                onChange={e => this.setPassword(e)}
+                type="password"
+                placeholder="Senha"
+              />
+              <Button onClick={(e) => this.submit(e, loginObj)} 
+                disabled={email === '' || password === ''}
+                color="primary"
+              >Entrar</Button>
+              <ToastContainer position='bottom-center'/>
+              <Button  onClick={(e) => this.createAccount(e)} color="primary" >Criar Conta</Button>
+              <a href="forgot">Esqueci minha senha</a>
+            </form>
+          </Content>
+        </Card>
       </Container>
     );
   }
