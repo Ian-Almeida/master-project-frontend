@@ -1,3 +1,5 @@
+import { IUser } from "../users/types";
+
 export enum LoginTypes {
 
     LOGIN = '@auth/LOGIN',
@@ -7,13 +9,9 @@ export enum LoginTypes {
     LOGOUT = '@auth/LOGOUT',
 }
 
-export interface ILogin {
-    email: string,
-    password: string,
-}
-
 export interface LoginState {
-    readonly data: ILogin,
+    readonly data: IUser[],
+    readonly isAuthUser: boolean,
     readonly loading: boolean,
     readonly error: boolean
 }

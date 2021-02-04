@@ -1,39 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { FiMail, FiLock } from 'react-icons/fi';
 import { Button } from '@material-ui/core';
 import Input from '../Input'
 import { Container, Content } from './styles';
-import ToastAnimated, { showToast } from '../Toast/index';
 
-import { IUser, IUserCreate } from '../../store/ducks/users/types';
-import { ILogin } from '../../store/ducks/auth/types';
-import { ApplicationState } from '../../store';
+
+import { IUser } from '../../store/ducks/users/types';
+import store, { ApplicationState } from '../../store';
 
 import * as UsersActions from '../../store/ducks/users/actions';
 import * as LoginActions from '../../store/ducks/auth/actions';
 
 interface StateProps {
   users: IUser[],
-  login: ILogin,
-  create: IUser[],
+  login: IUser[],
 }
 
 interface DispatchProps {
   userActions:{getUsersRequest(): void},
-  loginActions:{loginRequest(login:ILogin): void}
-  // loginAcions: {loginRequest(login: ILogin): void}
-  // getUsersRequest(): void,
-  // loginRequest(login: ILogin): void,
-  // createUserRequest(user: IUserCreate): any,
+  loginActions:{loginRequest(login:IUser[]): void}
 }
 
-type Props = StateProps & DispatchProps
+type Props = StateProps & DispatchProps & RouteComponentProps
 
 class SignIn extends Component<Props> {
 
@@ -42,9 +36,13 @@ class SignIn extends Component<Props> {
     password: '',
   }
 
-  componentDidMount() {
-
+  componentDidUpdate(prevProps:any, prevState:any) {
+    console.log(this.props)
+    if (prevProps.login !== this.props.login) {
+      this.props.history.push("/home", this.props.login[0]);
+    }
   }
+  
 
   setEmail(e: any) {
     this.setState({ email: e.target.value });
@@ -54,34 +52,41 @@ class SignIn extends Component<Props> {
     this.setState({ password: e.target.value });
   }
 
-  submit(e: any, login: ILogin) {
+  submit(e: any, login: IUser[]) {
     e.preventDefault();
     const { loginActions } = this.props;
 
     loginActions.loginRequest(login);
+
   }
 
   createAccount(e: any) {
     e.preventDefault();
-    const { userActions } = this.props;
-    userActions.getUsersRequest();
-
   }
-  
+
+  isActiveVerf(email: string, password: string){
+    if(email === '' || password === '') {
+      return false
+    } else {
+      return true
+    }
+  }
 
   render() {
-    const login: ILogin = this.state
-
+    const { email, password } = this.state;
+    const loginObj: IUser[] = [{id:'', email: email, password: password, active: false, name:'', isAuthUser:false}];
+    
     return (
       <Container className="container">
         <Content className="content">
           <form>
+            {this.props.login.length}
             <h1>Faça seu login</h1>
             <Input
               className="email-input"
               icon={FiMail}
               name="email"
-              value={login.email}
+              value={email}
               onChange={(e) => this.setEmail(e)}
               placeholder="E-mail"
               autoComplete="false"
@@ -89,17 +94,17 @@ class SignIn extends Component<Props> {
             <Input
               icon={FiLock}
               name="password"
-              value={login.password}
+              value={password}
               onChange={e => this.setPassword(e)}
               type="password"
               placeholder="Senha"
             />
-            
-            <Button className='formButton' onClick={(e) => this.submit(e, login)} 
-              disabled={login.email === '' || login.password === ''}>Entrar
-            </Button>
+            <Button onClick={(e) => this.submit(e, loginObj)} 
+              disabled={email === '' || password === ''}
+              color="primary"
+            >Entrar</Button>
             <ToastContainer position='bottom-center'/>
-            <Button className='formButton' onClick={(e) => this.createAccount(e)} color="primary" >Criar Conta</Button>
+            <Button  onClick={(e) => this.createAccount(e)} color="primary" >Criar Conta</Button>
             <a href="forgot">Esqueci minha senha</a>
           </form>
         </Content>
@@ -121,4 +126,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));

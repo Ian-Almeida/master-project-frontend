@@ -13,9 +13,4 @@ export const createUserSuccess = (data: IUserCreate) => action(UsersTypes.CREATE
 
 export const createUserFailure = () => action(UsersTypes.CREATE_USER_FAILURE);
 
-// export const loginRequest = (data: ILogin) => action(UsersTypes.LOGIN_USER_REQUEST, { data });
-
-// export const loginSuccess = (data: ILogin) => action(UsersTypes.LOGIN_USER_SUCCESS, { data });
-
-// export const loginFailure = () => action(UsersTypes.LOGIN_USER_FAILURE);
 

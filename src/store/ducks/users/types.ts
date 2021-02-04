@@ -6,11 +6,11 @@ export enum UsersTypes {
     CREATE_USER_SUCCESS = '@users/CREATE_USER_SUCCESS',
     CREATE_USER_FAILURE = '@users/CREATE_USER_FAILURE',
 
-    // DELETE_USER = '@users/DELETE_USER',
+    // DELETE_USER_REQUEST = '@users/DELETE_USER_REQUEST',
     // DELETE_USER_SUCCESS = '@users/DELETE_USER_SUCCESS',
     // DELETE_USER_FAILURE = '@users/DELETE_USER_FAILURE',
 
-    // UPDATE_USER = '@users/UPDATE_USER',
+    // UPDATE_USER_REQUEST = '@users/UPDATE_USER_REQUEST',
     // UPDATE_USER_SUCCESS = '@users/UPDATE_USER_SUCCESS',
     // UPDATE_USER_FAILURE = '@users/UPDATE_USER_FAILURE',
 
@@ -18,7 +18,7 @@ export enum UsersTypes {
     GET_USERS_SUCCESS = '@users/GET_USERS_SUCCESS',
     GET_USERS_FAILURE = '@users/GET_USERS_FAILURE',
 
-    // GET_USER = '@users/GET_USER',
+    // GET_USER_REQUEST = '@users/GET_USER_REQUEST',
     // GET_USER_SUCCESS = '@users/GET_USER_SUCCESS',
     // GET_USER_FAILURE = '@users/GET_USER_FAILURE',
 }
@@ -32,6 +32,7 @@ export interface IUser {
     email: string,
     password: string,
     active: boolean
+    isAuthUser: boolean
 }
 
 export interface IUserCreate {
