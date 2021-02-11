@@ -27,6 +27,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const verifyLogin = () => {
+  const localAuth = (localStorage.getItem('isAuthUser') === 'true');
+  const loginUserName = localStorage.getItem('username'); 
+
+  if(localAuth) {
+    return loginUserName;
+  }
+
+  return 'Login';
+}
+
 const NavBar = () => {
   const classes = useStyles();
 
@@ -44,7 +55,7 @@ const NavBar = () => {
             </Link>
           <Typography variant="h6" className={classes.title}/>
           <Link to="/login" className={classes.link}>
-            <Button color="inherit"style={{color:"white"}} >Login</Button>
+            <Button color="inherit"style={{color:"white"}} >{verifyLogin()}</Button>
           </Link>
         </Toolbar>
       </AppBar>

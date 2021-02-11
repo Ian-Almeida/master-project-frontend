@@ -31,8 +31,8 @@ export interface IUser {
     name: string,
     email: string,
     password: string,
-    active: boolean
-    isAuthUser: boolean
+    active: boolean,
+    isAuthUser: boolean,
 }
 
 export interface IUserCreate {

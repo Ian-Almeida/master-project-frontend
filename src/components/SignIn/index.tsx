@@ -6,7 +6,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { FiMail, FiLock } from 'react-icons/fi';
-import { Button, Card, CardContent } from '@material-ui/core';
+import { Button, Card } from '@material-ui/core';
+
 import Input from '../Input'
 import { Container, Content } from './styles';
 
@@ -38,8 +39,15 @@ class SignIn extends Component<Props> {
 
   componentDidUpdate(prevProps:any, prevState:any) {
     if (prevProps.login !== this.props.login) {
-      if(store.getState().login.isAuthUser){
-        this.props.history.push("/home", this.props.login[0]);
+      if(store.getState().login.isAuthUser) {
+
+        localStorage.setItem('isAuthUser', this.props.login[0].isAuthUser.toString());
+        //@ts-ignore
+        localStorage.setItem('token', this.props.login[0].authKey.access_token);
+        //@ts-ignore
+        localStorage.setItem('username', this.props.login[0].data[0].name);
+        
+        this.props.history.push("/home");
       }
     }
   }
@@ -76,13 +84,12 @@ class SignIn extends Component<Props> {
   render() {
     const { email, password } = this.state;
     const loginObj: IUser[] = [{id:'', email: email, password: password, active: false, name:'', isAuthUser:false}];
-    
+
     return (
       <Container className="container">
         <Card style={{width: "35%"}} variant="outlined">
           <Content className="content">
             <form>
-              {this.props.login.length}
               <h1>Faça seu login</h1>
               <Input
                 className="email-input"
@@ -106,8 +113,10 @@ class SignIn extends Component<Props> {
                 color="primary"
               >Entrar</Button>
               <ToastContainer position='bottom-center'/>
-              <Button  onClick={(e) => this.createAccount(e)} color="primary" >Criar Conta</Button>
-              <a href="forgot">Esqueci minha senha</a>
+              <NavLink to="/signUp" className="link">
+                <Button  color="primary" >Criar Conta</Button>
+              </NavLink>
+              <a href="forgot" className="link">Esqueci minha senha</a>
             </form>
           </Content>
         </Card>
@@ -119,7 +128,6 @@ class SignIn extends Component<Props> {
 const mapStateToProps = (state: ApplicationState) => ({
   users: state.users.data,
   login: state.login.data,
-  create: state.create.data,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
