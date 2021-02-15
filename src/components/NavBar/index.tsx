@@ -27,6 +27,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const verifyLogin = () => {
+  const localAuth = (localStorage.getItem('isAuthUser') === 'true');
+  const loginUserName = localStorage.getItem('username'); 
+
+  if(localAuth) {
+    return loginUserName;
+  }
+
+  return 'Login';
+}
+
 const NavBar = () => {
   const classes = useStyles();
 
@@ -37,14 +48,19 @@ const NavBar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
+          <Link to="/" className={classes.link}>
+            <Button color="inherit">
+              Página inicial
+            </Button>
+          </Link>
           <Link to="/home" className={classes.link}>
             <Button color="inherit">
               Master Project
             </Button>
-            </Link>
+          </Link>
           <Typography variant="h6" className={classes.title}/>
           <Link to="/login" className={classes.link}>
-            <Button color="inherit"style={{color:"white"}} >Login</Button>
+            <Button color="inherit"style={{color:"white"}} >{verifyLogin()}</Button>
           </Link>
         </Toolbar>
       </AppBar>

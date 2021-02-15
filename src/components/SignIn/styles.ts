@@ -45,6 +45,9 @@ export const Content = styled.div`
       display: block;
       transition: color 0.2s;
     }
+    .link {
+      text-decoration: none;
+    }
   }
   > a {
     display: flex;

@@ -6,6 +6,7 @@ const INITIAL_LOGIN_STATE: LoginState = {
   isAuthUser: false,
   loading: false,
   error: false,
+  authKey: {access_token:''},
 }
 
 export const loginReducer: Reducer<LoginState> = (state = INITIAL_LOGIN_STATE, action) => {

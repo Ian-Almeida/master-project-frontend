@@ -13,5 +13,6 @@ export interface LoginState {
     readonly data: IUser[],
     readonly isAuthUser: boolean,
     readonly loading: boolean,
-    readonly error: boolean
+    readonly error: boolean,
+    readonly authKey?: {access_token:string},
 }

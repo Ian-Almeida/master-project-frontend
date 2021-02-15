@@ -7,6 +7,7 @@ import { Typography, Divider, AppBar } from "@material-ui/core";
 import SignIn from './components/SignIn';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
+import SignUp from './components/SignUp';
 
 import AuthRoute from './authRoute';
 
@@ -26,6 +27,7 @@ export default function App() {
           <div className="container">
             <Switch>
               <AuthRoute path="/home" component={Home} type="private" />
+              <AuthRoute path="/signUp" component={SignUp} type="guest"/>
               <AuthRoute path="/login" type="guest">
                 <SignIn />
               </AuthRoute>
