@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { call } from "redux-saga/effects";
 
-import api from './services/api';
+import api, { url } from './services/api';
 
 export default function authHeaders() {
     let token = localStorage.getItem('token')
-  
+    
     if(token) {
-      axios.post('http://127.0.0.1:8000/api/auth/token', {access_token:token}).then(response => {
+      axios.post(`${url}auth/token`, {access_token:token}).then(response => {
         return response
       }).catch(error => {
         console.log(error)
@@ -25,6 +25,7 @@ export function* sagaAuthHeaders() {
         if(localStorage.getItem('token')) {
             token = localStorage.getItem('token');
 
+            //@ts-ignore
             const auth = yield call(api.post,'auth/token',{access_token: token});
 
             return auth;
