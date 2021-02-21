@@ -2,14 +2,30 @@ import React, { Component } from 'react';
 
 import { Container, Button } from '@material-ui/core';
 
-import store from "../../store";
+import { IUser } from '../../store/ducks/users/types';
 
-class Home extends Component {
+import store, { ApplicationState } from "../../store";
+
+import * as UsersActions from '../../store/ducks/users/actions';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+
+interface StateProps {
+  users: IUser[]
+}
+
+interface DispatchProps {
+  userActions:{getUsersRequest():void}
+}
+
+type Props = StateProps & DispatchProps;
+class Home extends Component<Props> {
 
     print(e: any) {
-        e.preventDefault()
-        console.log(store.getState())
-        console.log(localStorage)
+
+      const {userActions} = this.props;  
+      userActions.getUsersRequest();
+        
     }
     
     render() {      
@@ -21,5 +37,15 @@ class Home extends Component {
     }
   }
 
-  export default Home;
+  const mapStateToProps = (state: ApplicationState) => ({
+    users: state.users.data,
+  });
+  
+  const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+      userActions: bindActionCreators(UsersActions, dispatch),
+    }
+  };
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Home);
   

@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
+import authHeaders from './authHeader';
+
 import { Typography, Divider, AppBar } from "@material-ui/core";
 
 import SignIn from './components/SignIn';
@@ -19,7 +21,12 @@ const IndexPage = () => <div>
     <Typography variant="h6">De uma olhadinha</Typography>
 </div>
 
+// const componentDidMount = () => {
+//   authHeaders();
+// }
 export default function App() {
+  // componentDidMount()
+
     return (
       <Provider store={store}>
         <Router>

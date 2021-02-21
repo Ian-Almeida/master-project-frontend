@@ -9,7 +9,7 @@ export function* loginFunc(requestObj: any) {
     try{
         const loginObj = requestObj.payload.data[0];
         const response = yield call(api.post, `user/login`, loginObj);
-
+        
         yield put(loginSuccess(response.data));
         
         //@ts-ignore
