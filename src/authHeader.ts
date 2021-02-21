@@ -13,7 +13,7 @@ export default function authHeaders() {
         console.log(error)
         localStorage.removeItem('token')
         localStorage.removeItem('username')
-        window.location.reload()
+//         window.location.reload()
       })
     }
   }
@@ -34,7 +34,7 @@ export function* sagaAuthHeaders() {
         console.log(e)
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        window.location.reload()
+//         window.location.reload()
         return null
     }    
 }
