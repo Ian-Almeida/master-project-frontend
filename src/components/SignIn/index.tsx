@@ -41,13 +41,15 @@ class SignIn extends Component<Props> {
     if (prevProps.login !== this.props.login) {
       if(store.getState().login.isAuthUser) {
 
-        localStorage.setItem('isAuthUser', this.props.login[0].isAuthUser.toString());
+        const prevToken = localStorage.getItem('token')
         //@ts-ignore
         localStorage.setItem('token', this.props.login[0].authKey.access_token);
         //@ts-ignore
         localStorage.setItem('username', this.props.login[0].data[0].name);
         
         this.props.history.push("/home");
+
+        if(!prevToken){window.location.reload();}
       }
     }
   }

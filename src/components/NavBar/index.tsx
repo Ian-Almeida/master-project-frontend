@@ -9,6 +9,11 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+const state = {
+  localAuth: false,
+  loginUserName: ''
+}
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -28,18 +33,38 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const verifyLogin = () => {
-  const localAuth = (localStorage.getItem('isAuthUser') === 'true');
-  const loginUserName = localStorage.getItem('username'); 
 
-  if(localAuth) {
-    return loginUserName;
+  if(state.localAuth) {
+    return state.loginUserName;
   }
 
   return 'Login';
 }
 
+const LoginButton = (style:any) => {
+  if(state.localAuth) {
+    return(
+      <Button color="inherit" className={style.classes.link} >{verifyLogin()}</Button>
+    )
+  } else {
+    return(
+      <Link to="/login" className={style.classes.link}>
+        <Button color="inherit" >{verifyLogin()}</Button>
+      </Link>
+    )
+  }
+}
+
+const componentDidMount = () => {
+  state.localAuth = localStorage.getItem('token') ? true : false;
+  //@ts-ignore
+  state.loginUserName = localStorage.getItem('username'); 
+}
+
 const NavBar = () => {
   const classes = useStyles();
+
+  componentDidMount();
 
   return (
     <div className={classes.root}>
@@ -59,9 +84,7 @@ const NavBar = () => {
             </Button>
           </Link>
           <Typography variant="h6" className={classes.title}/>
-          <Link to="/login" className={classes.link}>
-            <Button color="inherit"style={{color:"white"}} >{verifyLogin()}</Button>
-          </Link>
+          <LoginButton classes={classes} />
         </Toolbar>
       </AppBar>
     </div>

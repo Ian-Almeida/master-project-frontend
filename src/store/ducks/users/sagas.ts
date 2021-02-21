@@ -3,14 +3,18 @@ import api from '../../../services/api';
 
 import { getUsersFailure, getUsersSuccess } from './actions';
 import { createUserFailure, createUserSuccess } from './actions';
-// import { ILogin, IUserCreate } from './types';
+import { sagaAuthHeaders } from "../../../authHeader";
 import ToastAnimated, { showToast } from '../../../components/Toast/index';
 import store from '../..';
 
 export function* loadAll() {
     try {
-        const response = yield call(api.get, 'user/');
-        yield put(getUsersSuccess(response.data));    
+        const auth = yield sagaAuthHeaders();
+
+        if(auth){
+            const response = yield call(api.get, 'user/');
+            yield put(getUsersSuccess(response.data));
+        }
                 
     } catch (err) {
         
